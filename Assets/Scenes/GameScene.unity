@@ -888,6 +888,7 @@ GameObject:
   - component: {fileID: 493698587}
   - component: {fileID: 493698586}
   - component: {fileID: 493698585}
+  - component: {fileID: 493698588}
   m_Layer: 5
   m_Name: Column InputField (TMP)
   m_TagString: Untagged
@@ -995,7 +996,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 493698588}
+        m_TargetAssemblyTypeName: PlayerInputGrid, Assembly-CSharp
+        m_MethodName: OnValueChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1052,6 +1065,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 493698583}
   m_CullTransparentMesh: 1
+--- !u!114 &493698588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493698583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb6aa16925e9144da905fc4432cf9a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRow: 0
 --- !u!1 &576937491
 GameObject:
   m_ObjectHideFlags: 0
@@ -2830,10 +2856,10 @@ MonoBehaviour:
   boardRect: {fileID: 384644815}
   grid: {fileID: 384644816}
   cardPrefab: {fileID: 37195822669143526, guid: 64f7f162bf18d9a439e8a1d92eb65220, type: 3}
+  rowsCount: {fileID: 1979701230}
+  colsCount: {fileID: 493698585}
   minCardSize: 20
   maxCardSize: 300
-  currentRows: 4
-  currentCols: 4
 --- !u!1 &1979701228
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,6 +2872,7 @@ GameObject:
   - component: {fileID: 1979701232}
   - component: {fileID: 1979701231}
   - component: {fileID: 1979701230}
+  - component: {fileID: 1979701233}
   m_Layer: 5
   m_Name: Rows InputField (TMP)
   m_TagString: Untagged
@@ -2953,7 +2980,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1979701233}
+        m_TargetAssemblyTypeName: PlayerInputGrid, Assembly-CSharp
+        m_MethodName: OnValueChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3010,6 +3049,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979701228}
   m_CullTransparentMesh: 1
+--- !u!114 &1979701233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979701228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb6aa16925e9144da905fc4432cf9a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRow: 1
 --- !u!1 &2007289266
 GameObject:
   m_ObjectHideFlags: 0

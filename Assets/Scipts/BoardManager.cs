@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BoardManager : MonoBehaviour
 {
@@ -9,11 +10,14 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GridLayoutGroup grid;
     [SerializeField] private GameObject cardPrefab;
 
+    [SerializeField] private TMP_InputField rowsCount;
+    [SerializeField] private TMP_InputField colsCount;
+
     [SerializeField] private float minCardSize = 20f;
     [SerializeField] private float maxCardSize = 300f;
 
-    [SerializeField] private int currentRows = 4;
-    [SerializeField] private int currentCols = 4;
+    private int currentRows;
+    private int currentCols;
 
     private bool boardGenerated;
     private bool resizeQueued;
@@ -28,6 +32,9 @@ public class BoardManager : MonoBehaviour
 
     public void GenerateBoard()
     {
+        currentRows = int.Parse(rowsCount.text);
+        currentCols = int.Parse(colsCount.text);
+
         grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         grid.constraintCount = currentCols;
 
@@ -90,3 +97,5 @@ public class BoardManager : MonoBehaviour
         resizeQueued = false;
     }
 }
+
+
