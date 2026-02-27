@@ -11,6 +11,7 @@ public class BoardPresenter : MonoBehaviour
     [SerializeField] private TMP_InputField colsCount;
     [SerializeField] private GameObject errorMessage;
     [SerializeField] private List<Sprite> frontImages;
+    [SerializeField] private float startRevealDuration = 1f;
 
     private int rows;
     private int cols;
@@ -37,9 +38,21 @@ public class BoardPresenter : MonoBehaviour
             errorMessage.SetActive(false);
         }
 
+        StartCoroutine(StartGameRoutine());
+    }
+
+    private IEnumerator StartGameRoutine()
+    {
+        isResolving = true;
         boardManager.GenerateBoard(rows, cols);
         SpawnCards(rows * cols);
         AssignModels();
+
+        yield return RevealAllCards();
+        yield return new WaitForSeconds(startRevealDuration);
+        yield return HideAllCards();
+
+        isResolving = false;
     }
 
     private void SpawnCards(int count)
@@ -145,6 +158,31 @@ public class BoardPresenter : MonoBehaviour
     private void OnGameCompleted()
     {
         Debug.Log("Game Completed!");
+    }
+
+    private IEnumerator RevealAllCards()
+    {
+        foreach (var card in spawnedCards)
+            StartCoroutine(card.FlipToFront());
+
+        yield return new WaitUntil(() => AllCardsIdle());
+    }
+
+    private IEnumerator HideAllCards()
+    {
+        foreach (var card in spawnedCards)
+            StartCoroutine(card.FlipToBack());
+
+        yield return new WaitUntil(() => AllCardsIdle());
+    }
+
+    private bool AllCardsIdle()
+    {
+        foreach (var card in spawnedCards)
+            if (card.IsFlipping)
+                return false;
+
+        return true;
     }
 }
 

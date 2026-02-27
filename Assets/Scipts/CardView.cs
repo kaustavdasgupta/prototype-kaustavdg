@@ -14,6 +14,8 @@ public class CardView : MonoBehaviour
     public event Action<CardView> OnClicked;
     private bool isFlipping;
 
+    public bool IsFlipping { get { return isFlipping; } }
+
     public void Init(CardModel model, Sprite sprite)
     {
         Model = model;
