@@ -30,6 +30,7 @@ public class CardView : MonoBehaviour
     {
         if (isFlipping || Model.IsMatched) return;
 
+        SoundManager.Instance?.PlayFlip();
         OnClicked?.Invoke(this);
     }
 
