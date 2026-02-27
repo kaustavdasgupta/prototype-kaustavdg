@@ -16,11 +16,13 @@ public class ComboView : MonoBehaviour
     private void OnEnable()
     {
         presenter.OnComboChanged += UpdateCombo;
+        presenter.OnGameStarted += HideCombo;
     }
 
     private void OnDisable()
     {
         presenter.OnComboChanged -= UpdateCombo;
+        presenter.OnGameStarted -= HideCombo;
     }
 
     private void UpdateCombo(int combo)

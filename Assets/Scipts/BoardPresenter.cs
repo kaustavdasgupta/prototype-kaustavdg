@@ -29,6 +29,8 @@ public class BoardPresenter : MonoBehaviour
 
     public System.Action<int> OnScoreChanged;
     public System.Action<int> OnComboChanged;
+    public System.Action<int> OnGameComplete;
+    public System.Action OnGameStarted;
 
     public void StartGame()
     {
@@ -51,6 +53,8 @@ public class BoardPresenter : MonoBehaviour
 
     private IEnumerator StartGameRoutine()
     {
+        OnGameStarted?.Invoke();
+
         currentScore = 0;
         comboStreak = 0;
         OnScoreChanged?.Invoke(currentScore);
@@ -179,6 +183,11 @@ public class BoardPresenter : MonoBehaviour
     private void OnGameCompleted()
     {
         Debug.Log($"Game Completed! Final Score: {currentScore}");
+        OnGameComplete?.Invoke(currentScore);
+
+        currentScore = 0;
+        comboStreak = 0;
+        OnScoreChanged?.Invoke(currentScore);
     }
 
     private IEnumerator RevealAllCards()
