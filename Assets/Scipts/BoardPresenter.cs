@@ -112,8 +112,13 @@ public class BoardPresenter : MonoBehaviour
 
         if (first.Model.Id == second.Model.Id)
         {
+            first.SetMatchedVisual();
+            second.SetMatchedVisual();
+
             first.Model.IsMatched = true;
             second.Model.IsMatched = true;
+
+            CheckGameComplete();
         }
         else
         {
@@ -124,6 +129,22 @@ public class BoardPresenter : MonoBehaviour
         first = null;
         second = null;
         isResolving = false;
+    }
+
+    private void CheckGameComplete()
+    {
+        foreach (var card in spawnedCards)
+        {
+            if (!card.Model.IsMatched)
+                return;
+        }
+
+        OnGameCompleted();
+    }
+
+    private void OnGameCompleted()
+    {
+        Debug.Log("Game Completed!");
     }
 }
 
