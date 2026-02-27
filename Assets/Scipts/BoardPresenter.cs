@@ -48,6 +48,7 @@ public class BoardPresenter : MonoBehaviour
             errorMessage.SetActive(false);
         }
 
+        StopAllCoroutines();
         StartCoroutine(StartGameRoutine());
     }
 
@@ -61,7 +62,10 @@ public class BoardPresenter : MonoBehaviour
 
         isResolving = true;
         boardManager.GenerateBoard(rows, cols);
-        SpawnCards(rows * cols);
+
+        yield return null;
+
+        SpawnCards();
         AssignModels();
 
         yield return RevealAllCards();
@@ -71,13 +75,14 @@ public class BoardPresenter : MonoBehaviour
         isResolving = false;
     }
 
-    private void SpawnCards(int count)
+    private void SpawnCards()
     {
         spawnedCards.Clear();
 
         foreach (Transform child in boardManager.BoardGrid.transform)
         {
             var view = child.GetComponent<CardView>();
+            view.OnClicked -= OnCardClicked;
             view.OnClicked += OnCardClicked;
             spawnedCards.Add(view);
         }
@@ -85,7 +90,13 @@ public class BoardPresenter : MonoBehaviour
 
     private void AssignModels()
     {
+        spawnedCards.RemoveAll(card => card == null);
+
         int pairCount = spawnedCards.Count / 2;
+        
+        if (pairCount > frontImages.Count)
+            return;
+
         List<int> ids = new();
 
         for (int i = 0; i < pairCount; i++)
@@ -103,11 +114,6 @@ public class BoardPresenter : MonoBehaviour
         for (int i = 0; i < spawnedCards.Count; i++)
         {
             int id = ids[i];
-            if (id >= frontImages.Count)
-            {
-                Debug.LogError("Not enough Front Images!");
-                return;
-            }
             spawnedCards[i].Init(new CardModel(id), frontImages[id]);
         }
     }
@@ -116,6 +122,7 @@ public class BoardPresenter : MonoBehaviour
     {
         if (isResolving) return;
         if (card == first) return;
+        if (card.Model.IsMatched) return;
 
         StartCoroutine(HandleFlip(card));
     }
@@ -147,11 +154,11 @@ public class BoardPresenter : MonoBehaviour
             OnScoreChanged?.Invoke(currentScore);
             OnComboChanged?.Invoke(comboStreak);
 
-            first.SetMatchedVisual();
-            second.SetMatchedVisual();
-
             first.Model.IsMatched = true;
             second.Model.IsMatched = true;
+
+            first.SetMatchedVisual();
+            second.SetMatchedVisual();
 
             CheckGameComplete();
         }
@@ -209,7 +216,7 @@ public class BoardPresenter : MonoBehaviour
     private bool AllCardsIdle()
     {
         foreach (var card in spawnedCards)
-            if (card.IsFlipping)
+            if (card != null && card.IsFlipping)
                 return false;
 
         return true;
