@@ -14,9 +14,10 @@ public class CardView : MonoBehaviour
     public event Action<CardView> OnClicked;
     private bool isFlipping;
 
-    public void Init(CardModel model)
+    public void Init(CardModel model, Sprite sprite)
     {
         Model = model;
+        front.GetComponent<Image>().sprite = sprite;
         ShowBackInstant();
 
         button.onClick.RemoveAllListeners();
