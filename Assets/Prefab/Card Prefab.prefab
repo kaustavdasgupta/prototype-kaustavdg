@@ -291,4 +291,4 @@ MonoBehaviour:
   front: {fileID: 1504207383}
   back: {fileID: 2127802512}
   button: {fileID: 960868889}
-  flipDuration: 0.2
+  flipDuration: 0.1
