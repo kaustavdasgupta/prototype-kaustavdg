@@ -10,9 +10,6 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GridLayoutGroup grid;
     [SerializeField] private GameObject cardPrefab;
 
-    [SerializeField] private TMP_InputField rowsCount;
-    [SerializeField] private TMP_InputField colsCount;
-
     [SerializeField] private float minCardSize = 20f;
     [SerializeField] private float maxCardSize = 300f;
 
@@ -22,6 +19,8 @@ public class BoardManager : MonoBehaviour
     private bool boardGenerated;
     private bool resizeQueued;
 
+    public GridLayoutGroup BoardGrid { get { return grid; } }
+
     private void OnRectTransformDimensionsChange()
     {
         if (!boardGenerated) return;
@@ -30,10 +29,10 @@ public class BoardManager : MonoBehaviour
             StartCoroutine(ResizeBoardRoutine());
     }
 
-    public void GenerateBoard()
+    public void GenerateBoard(int rows, int cols)
     {
-        currentRows = int.Parse(rowsCount.text);
-        currentCols = int.Parse(colsCount.text);
+        currentRows = rows;
+        currentCols = cols;
 
         grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         grid.constraintCount = currentCols;

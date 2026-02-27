@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 2376868968775303663}
   - component: {fileID: 452810959117055890}
   - component: {fileID: 960868889}
+  - component: {fileID: 8269980701231737246}
   m_Layer: 5
   m_Name: Card Prefab
   m_TagString: Untagged
@@ -275,3 +276,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8269980701231737246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37195822669143526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbfa66a0df2a93439c22df1ee04397f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  front: {fileID: 1504207383}
+  back: {fileID: 2127802512}
+  button: {fileID: 960868889}
+  flipDuration: 0.2

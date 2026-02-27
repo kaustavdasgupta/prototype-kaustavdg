@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 14749941}
   - component: {fileID: 14749943}
   - component: {fileID: 14749942}
+  - component: {fileID: 14749944}
   m_Layer: 5
   m_Name: Game Board
   m_TagString: Untagged
@@ -199,6 +200,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14749940}
   m_CullTransparentMesh: 1
+--- !u!114 &14749944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14749940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4b1b2ca9d21934db013cc421e27053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardManager: {fileID: 1875967321}
+  rowsCount: {fileID: 1979701230}
+  colsCount: {fileID: 493698585}
+  errorMessage: {fileID: 1202234696}
 --- !u!1 &97823981
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,9 +300,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1875967321}
-        m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
-        m_MethodName: GenerateBoard
+      - m_Target: {fileID: 14749944}
+        m_TargetAssemblyTypeName: BoardPresenter, Assembly-CSharp
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2856,8 +2873,6 @@ MonoBehaviour:
   boardRect: {fileID: 384644815}
   grid: {fileID: 384644816}
   cardPrefab: {fileID: 37195822669143526, guid: 64f7f162bf18d9a439e8a1d92eb65220, type: 3}
-  rowsCount: {fileID: 1979701230}
-  colsCount: {fileID: 493698585}
   minCardSize: 20
   maxCardSize: 300
 --- !u!1 &1979701228
