@@ -21,6 +21,13 @@ public class BoardPresenter : MonoBehaviour
     private CardView second;
     private bool isResolving;
 
+    [SerializeField] private int matchScore = 100;
+    [SerializeField] private int comboBonus = 50;
+
+    private int currentScore;
+    private int comboStreak;
+
+    public System.Action<int> OnScoreChanged;
 
     public void StartGame()
     {
@@ -43,6 +50,10 @@ public class BoardPresenter : MonoBehaviour
 
     private IEnumerator StartGameRoutine()
     {
+        currentScore = 0;
+        comboStreak = 0;
+        OnScoreChanged?.Invoke(currentScore);
+
         isResolving = true;
         boardManager.GenerateBoard(rows, cols);
         SpawnCards(rows * cols);
@@ -125,6 +136,11 @@ public class BoardPresenter : MonoBehaviour
 
         if (first.Model.Id == second.Model.Id)
         {
+            comboStreak += 1;
+            int gained = matchScore + (comboStreak - 1) * comboBonus;
+            currentScore += gained;
+            OnScoreChanged?.Invoke(currentScore);
+
             first.SetMatchedVisual();
             second.SetMatchedVisual();
 
@@ -135,6 +151,7 @@ public class BoardPresenter : MonoBehaviour
         }
         else
         {
+            comboStreak = 0;
             yield return first.FlipToBack();
             yield return second.FlipToBack();
         }
@@ -157,7 +174,7 @@ public class BoardPresenter : MonoBehaviour
 
     private void OnGameCompleted()
     {
-        Debug.Log("Game Completed!");
+        Debug.Log($"Game Completed! Final Score: {currentScore}");
     }
 
     private IEnumerator RevealAllCards()

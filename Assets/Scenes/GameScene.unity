@@ -216,6 +216,20 @@ MonoBehaviour:
   rowsCount: {fileID: 1979701230}
   colsCount: {fileID: 493698585}
   errorMessage: {fileID: 1202234696}
+  frontImages:
+  - {fileID: 605854830, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: 1010332425, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: 1727442922, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: 1502614640, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: -1127285177, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: 207566672, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: -2059320326, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: -1239492352, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: -887507838, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  - {fileID: -1162685367, guid: 7c1dca8632517d643a0045684cc37f14, type: 3}
+  startRevealDuration: 1
+  matchScore: 100
+  comboBonus: 50
 --- !u!1 &97823981
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,6 +2040,7 @@ GameObject:
   - component: {fileID: 1371379065}
   - component: {fileID: 1371379067}
   - component: {fileID: 1371379066}
+  - component: {fileID: 1371379068}
   m_Layer: 5
   m_Name: Score Text (TMP)
   m_TagString: Untagged
@@ -2150,6 +2165,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371379064}
   m_CullTransparentMesh: 1
+--- !u!114 &1371379068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371379064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2441ef5b60b3d0e4cb53c6e9fdda3a4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presenter: {fileID: 14749944}
+  scoreText: {fileID: 1371379066}
 --- !u!1 &1417544315
 GameObject:
   m_ObjectHideFlags: 0
