@@ -32,6 +32,15 @@ public class BoardPresenter : MonoBehaviour
     public System.Action<int> OnGameComplete;
     public System.Action OnGameStarted;
 
+    private bool isLoading;
+
+    private void Start()
+    {
+        GameSaveData save = SaveSystem.Load();
+        if (save != null)
+            StartCoroutine(LoadGameRoutine(save));
+    }
+
     public void StartGame()
     {
         rows = int.Parse(rowsCount.text);
@@ -48,6 +57,7 @@ public class BoardPresenter : MonoBehaviour
             errorMessage.SetActive(false);
         }
 
+        SaveSystem.Clear();
         StopAllCoroutines();
         StartCoroutine(StartGameRoutine());
     }
@@ -161,7 +171,7 @@ public class BoardPresenter : MonoBehaviour
             second.SetMatchedVisual();
 
             SoundManager.Instance?.PlayMatch();
-
+            SaveGame();
             CheckGameComplete();
         }
         else
@@ -173,6 +183,8 @@ public class BoardPresenter : MonoBehaviour
 
             yield return first.FlipToBack();
             yield return second.FlipToBack();
+
+            SaveGame();
         }
 
         first = null;
@@ -182,6 +194,8 @@ public class BoardPresenter : MonoBehaviour
 
     private void CheckGameComplete()
     {
+        if (isLoading) return;
+
         foreach (var card in spawnedCards)
         {
             if (!card.Model.IsMatched)
@@ -193,6 +207,8 @@ public class BoardPresenter : MonoBehaviour
 
     private void OnGameCompleted()
     {
+        if (isLoading) return;
+
         Debug.Log($"Game Completed! Final Score: {currentScore}");
         OnGameComplete?.Invoke(currentScore);
         SoundManager.Instance?.PlayGameOver();
@@ -200,6 +216,8 @@ public class BoardPresenter : MonoBehaviour
         currentScore = 0;
         comboStreak = 0;
         OnScoreChanged?.Invoke(currentScore);
+
+        SaveSystem.Clear();
     }
 
     private IEnumerator RevealAllCards()
@@ -226,6 +244,73 @@ public class BoardPresenter : MonoBehaviour
 
         return true;
     }
-}
 
+    #region SaveGame
+    private void SaveGame()
+    {
+        if (isLoading) return;
+
+        if (spawnedCards == null || spawnedCards.Count == 0)
+            return;
+
+        GameSaveData data = new()
+        {
+            rows = boardManager.Rows,
+            cols = boardManager.Cols,
+            score = currentScore,
+            combo = comboStreak
+        };
+
+        foreach (var card in spawnedCards)
+        {
+            data.matchedCards.Add(card.Model.IsMatched);
+            data.cardIds.Add(card.Model.Id);
+        }
+
+        SaveSystem.Save(data);
+    }
+
+    private IEnumerator LoadGameRoutine(GameSaveData save)
+    {
+        isLoading = true;
+        isResolving = true;
+        boardManager.GenerateBoard(save.rows, save.cols);
+
+        yield return new WaitUntil(() => boardManager.BoardGrid.transform.childCount > 0);
+
+        SpawnCards();
+
+        currentScore = save.score;
+        comboStreak = save.combo;
+        OnScoreChanged?.Invoke(currentScore);
+
+        for (int i = 0; i < spawnedCards.Count; i++)
+        {
+            int id = save.cardIds[i];
+            var model = new CardModel(id);
+            spawnedCards[i].Init(model, frontImages[id]);
+
+            if (save.matchedCards[i])
+            {
+                model.IsMatched = true;
+                spawnedCards[i].SetMatchedVisual();
+            }
+        }
+
+        isResolving = false;
+        isLoading = false;
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+            SaveGame();
+    }
+
+    private void OnDisable()
+    {
+        SaveGame();
+    }
+    #endregion
+}
 
