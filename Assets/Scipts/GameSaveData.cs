@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class GameSaveData : MonoBehaviour
+public class GameSaveData
 {
     public int rows;
     public int cols;
