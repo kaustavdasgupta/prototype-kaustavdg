@@ -9,7 +9,7 @@ public class BoardPresenter : MonoBehaviour
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TMP_InputField rowsCount;
     [SerializeField] private TMP_InputField colsCount;
-    [SerializeField] private GameObject errorMessage;
+    [SerializeField] private TextMeshProUGUI errorMessage;
     [SerializeField] private List<Sprite> frontImages;
     [SerializeField] private float startRevealDuration = 1f;
 
@@ -43,18 +43,26 @@ public class BoardPresenter : MonoBehaviour
 
     public void StartGame()
     {
+        if (string.IsNullOrEmpty(rowsCount.text) || string.IsNullOrEmpty(colsCount.text))
+        {
+            errorMessage.text = "Rows and Column Input should be filled";
+            errorMessage.gameObject.SetActive(true);
+            return;
+        }
+
         rows = int.Parse(rowsCount.text);
         cols = int.Parse(colsCount.text);
         int totalcards = rows * cols;
 
         if (totalcards % 2 != 0)
         {
-            errorMessage.SetActive(true);
+            errorMessage.text = "Total Cards should be in even number";
+            errorMessage.gameObject.SetActive(true);
             return;
         }
         else
         {
-            errorMessage.SetActive(false);
+            errorMessage.gameObject.SetActive(false);
         }
 
         SaveSystem.Clear();
